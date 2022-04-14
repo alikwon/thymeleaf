@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,11 +22,10 @@ public class ThymeleafStudyController {
         log.info("ex1...........");
     }
 
-    @GetMapping("/loop")
-    public void loop(Model model) {
+    private List<SampleDTO> makeDummies() {
         List<SampleDTO> list = new ArrayList<>();
 
-        for (long i = 1; i < 21; i++) {
+        for (long i = 1; i < 11; i++) {
             SampleDTO dto = SampleDTO.builder()
                     .sno(i)
                     .first("First - " + i)
@@ -34,6 +34,34 @@ public class ThymeleafStudyController {
                     .build();
             list.add(dto);
         }
-        model.addAttribute("list", list);
+        return list;
+    }
+
+    @GetMapping({"/loop","/control", "/link"})
+    public void loop(Model model) {
+        model.addAttribute("list", makeDummies());
+    }
+
+    /**
+     * 생성된 dto의 데이터를 심어서 전달
+     */
+    @GetMapping("/inline")
+    public String inline(RedirectAttributes redirectAttributes) {
+        log.info("inlineTest..................");
+        long sno = 100L;
+        SampleDTO dto = SampleDTO.builder()
+                .sno(sno)
+                .first("First - " + sno)
+                .last("Lat - " + sno)
+                .regTime(LocalDateTime.now())
+                .build();
+        redirectAttributes.addFlashAttribute("result", "success");
+        redirectAttributes.addFlashAttribute("dto", dto);
+        return "redirect:/thymeleaf/inlineView";
+    }
+
+    @GetMapping("/inlineView")
+    public void inlineView() {
+        log.info("inline view ...........");
     }
 }

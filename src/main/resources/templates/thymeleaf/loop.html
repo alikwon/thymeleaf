@@ -9,20 +9,5 @@
   <ul>
     <li th:each="dto, status : ${list}"> [[${status.even} + ' - ' + ${dto}]] </li>
   </ul>
-
-<hr>
-  <h2>제어문 처리 처리 - th:if ~ unless</h2>
-  <ul>
-    <li th:each="dto, status : ${list}">
-      <span  th:if="${dto.sno % 5 == 0}">[[${dto.sno}]]</span>
-      <span  th:unless="${dto.sno % 5 == 0}">[[${dto.first}]]</span>
-    </li>
-  </ul>
-<hr>
-  <h2>제어문 처리 처리 - 삼항연산자</h2>
-  <ul>
-    <li th:each="dto, status : ${list}" th:text="${dto.sno % 5 == 0} ? ${dto.sno} : ${dto.first}">
-    </li>
-  </ul>
 </body>
 </html>
