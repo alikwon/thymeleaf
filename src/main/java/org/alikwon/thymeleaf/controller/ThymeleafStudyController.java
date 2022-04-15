@@ -37,7 +37,7 @@ public class ThymeleafStudyController {
         return list;
     }
 
-    @GetMapping({"/loop","/control", "/link"})
+    @GetMapping({"/loop", "/control", "/link"})
     public void loop(Model model) {
         model.addAttribute("list", makeDummies());
     }
@@ -63,5 +63,10 @@ public class ThymeleafStudyController {
     @GetMapping("/inlineView")
     public void inlineView() {
         log.info("inline view ...........");
+    }
+
+    @GetMapping({"/layout", "/layoutParam", "/template","/sidebar"})
+    public void layout() {
+        log.info("layout................");
     }
 }

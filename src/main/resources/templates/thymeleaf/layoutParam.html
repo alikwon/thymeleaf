@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Layout Param</h1>
+    <th:block th:replace="~{/thymeleaf/fragment/fragment3 :: target(~{this::#ulFirst}, ~{this::#ulSecond})}">
+        <ul id="ulFirst">
+            <li>AAA</li>
+            <li>BBB</li>
+            <li>CCC</li>
+        </ul>
+        <ul id="ulSecond">
+            <li>111</li>
+            <li>222</li>
+            <li>333</li>
+        </ul>
+    </th:block>
+
+</body>
+</html>

@@ -216,3 +216,104 @@
 ---
 ## Thymeleaf 레이아웃
 
+- Thymeleaf 레이아웃 기능은 크게 2가지 형태
+  1. **JSP**의 `include` 와 같이 특정 부분을 외부 혹은 내부에서 가져와서 포함하는 형태
+  2. 특정 부분을 파라미터로 전달해서 내용에 포함하는 형태
+
+### include방식의 처리
+
+- 특정한 부분을 다른내용으로 변경
+- `th:insert` : 기존내용의 바깥형태는 그대로 유지하면서 추가
+- `th:replace` : 기존의 내용을 완전히 **대체**하는 방식
+
+    ```html
+    <!-- fragment1.html-->
+    ...
+    <div th:fragment="part1">
+        <h2>PART 1</h2>
+    </div>
+    <div th:fragment="part2">
+        <h2>PART 2</h2>
+    </div>
+    <div th:fragment="part3">
+        <h2>PART 3</h2>
+    </div>
+    ...
+    <!-- th:fragment 로 작성된 태그를 다른 html에서 가져다 쓴다. -->
+    ```
+
+    ```html
+    <!--  fragment2.html -->
+    <hr>
+      <h2>Fragment2 File</h2>
+      <h2>Fragment2 File</h2>
+      <h2>Fragment2 File</h2>
+    <hr>
+    ```
+
+    ```html
+    <!-- layout.html -->
+    
+    	<!-- th:replace : div태그를 완전히 대체-->
+    <h1>Layout - 1</h1>
+    <div th:replace="~{/thymeleaf/fragment/fragment1 :: part1}"></div>
+    
+    	<!-- th:insert : div 태그 안에 part2를 삽입-->
+    <h1>Layout - 2</h1>
+    <div th:insert="~{/thymeleaf/fragment/fragment1 :: part2}"></div>
+    
+    	<!-- th:block태그 사용-->
+    <h1>Layout - 3</h1>
+    <th:block th:replace="~{/thymeleaf/fragment/fragment1 :: part3}"></th:block>
+    
+    	<!-- fragment2.html 전체를 가져옴-->
+    <h1>Fragment Test</h1>
+    <div style="border: 1px solid blue">
+    	<th:block th:replace="~{/fragments/fragment2}"></th:block>
+    </div>
+    ```
+
+
+### 파라미터 방식의 처리
+
+- JSP와 달리 Thymeleaf를 이용하면 특정한 태그를 파라미터처럼 전달하여 사용 가능
+
+    ```html
+    <!--  fragment2.html -->
+    <div th:fragment="target(first,second)">
+      <style>
+        .c1{ background: red;}
+        .c2{ background: blue;}
+      </style>
+      <div class="c1">
+        <th:block th:replace="${first}"></th:block>
+      </div>
+      <div class="c2">
+        <th:block th:replace="${second}"></th:block>
+      </div>
+    </div>
+    ```
+
+  - 선언된 target부분에는 `first`와 `second`라는 파라미터를 받을 수 있도록 구성
+
+    ```html
+    <!-- layoutParam.html -->
+    <th:block th:replace="~{/thymeleaf/fragment/fragment3 :: target(~{this::#ulFirst}, ~{this::#ulSecond})}">
+        <ul id="ulFirst">
+            <li>AAA</li>
+            <li>BBB</li>
+            <li>CCC</li>
+        </ul>
+        <ul id="ulSecond">
+            <li>111</li>
+            <li>222</li>
+            <li>333</li>
+        </ul>
+    </th:block>
+    ```
+
+  - target 사용시 파라미터 2개를 사용
+    - `~{this::#ulFirst}`  : this는  현재페이지를 의미할 때 사용. 현재페이지의 #ulFirst태그 선택
+  - fragment3을 대체 하면서 `#ulFirst`요소를 fragment3의 `${first}` 부분에 대체
+  - 어지렁...
+

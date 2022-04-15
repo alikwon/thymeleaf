@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/thymeleaf/layout/layout1:: setContent(~{this:: content})}">
+    <th:block th:fragment="content">
+        <h1>Template Page Content</h1>
+    </th:block>
+</th:block>
+</html>
