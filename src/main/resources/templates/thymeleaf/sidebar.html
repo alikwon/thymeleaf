@@ -1,10 +1,8 @@
-
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" >
-<th:block th:replace="~{/thymeleaf/layout/basic :: setContent(~{this::content})}">
-    <th:block th:fragment="content">
-        <h1>Sidebar Page</h1>
-    </th:block>
+<th:block th:replace="~{/thymeleaf/layout/basicLayout :: setContent(~{this::content})}">
+<th:block th:fragment="content">
+    <h1>Sidebar Page</h1>
+</th:block>
 </th:block>
 </html>

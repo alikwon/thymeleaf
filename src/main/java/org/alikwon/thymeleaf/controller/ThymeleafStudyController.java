@@ -66,7 +66,15 @@ public class ThymeleafStudyController {
     }
 
     @GetMapping({"/layout", "/layoutParam", "/template","/sidebar"})
-    public void layout() {
+    public void layout(Model model) {
         log.info("layout................");
+        long sno = 100L;
+        SampleDTO dto = SampleDTO.builder()
+                .sno(sno)
+                .first("First - " + sno)
+                .last("Lat - " + sno)
+                .regTime(LocalDateTime.now())
+                .build();
+        model.addAttribute("test",dto);
     }
 }
